@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int            @id @default(autoincrement())
+  username  String         @unique
+  email     String         @unique
+  password  String         @unique
+  details   UserDetails    @relation(fields: [detailsId], references: [id])
+  detailsId Int            @unique @map("user_details_id")
+  profile   UserProfile    @relation(fields: [profileId], references: [id])
+  profileId Int            @unique @map("profile_id")
+  followers UsersFollows[] @relation("following")
+  following UsersFollows[] @relation("follower")
+  posts     UserPosts[]
+
+  @@map("user")
+}
+
+model UserDetails {
+  id        Int     @id @default(autoincrement())
+  firstName String  @map("first_name")
+  lastName  String? @map("last_name")
+  user      User?
+
+  @@map("user_details")
+}
+
+model UserProfile {
+  id          Int    @id @default(autoincrement())
+  description String
+  user        User?
+
+  @@map("user_profile")
+}
+
+model UsersFollows {
+  follower    User @relation("follower", fields: [followerId], references: [id])
+  followerId  Int  @map("follower_id")
+  following   User @relation("following", fields: [followingId], references: [id])
+  followingId Int  @map("following_id")
+
+  @@id([followerId, followingId])
+  @@map("users_follows")
+}
+
+model UserPosts {
+  id           Int       @id @default(autoincrement())
+  user         User      @relation(fields: [userId], references: [id])
+  userId       Int
+  uuid         String    @unique
+  title        String
+  introduction String
+  creationDate DateTime  @map("creation_date")
+  updateDate   DateTime? @map("update_date")
+
+  @@map("user_posts")
+}
