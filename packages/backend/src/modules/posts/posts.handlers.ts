@@ -56,7 +56,7 @@ export const createPost: RouteHandlerMethodTypeBox<typeof createPostSchema> = as
   await createOrUpdatePost(uuid, content);
 
   const post = await server.prisma.userPosts.create({
-    data: { userId, uuid, title, introduction, creationDate: new Date() },
+    data: { userId, uuid, title, introduction, updateDate: null },
     include: { user: { include: userIncludes } },
   });
 
@@ -71,7 +71,7 @@ export const updatePost: RouteHandlerMethodTypeBox<typeof updatePostSchema> = as
 
   await server.prisma.userPosts.updateMany({
     where: { userId, uuid },
-    data: { title, introduction, updateDate: new Date() },
+    data: { title, introduction },
   });
 
   if (content) {

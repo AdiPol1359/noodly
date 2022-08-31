@@ -57,8 +57,8 @@ model UserPosts {
   uuid         String    @unique
   title        String
   introduction String
-  creationDate DateTime  @map("creation_date")
-  updateDate   DateTime? @map("update_date")
+  creationDate DateTime  @default(now()) @map("creation_date")
+  updateDate   DateTime? @updatedAt @map("update_date")
 
   @@map("user_posts")
 }
