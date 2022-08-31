@@ -9,22 +9,29 @@ The largest blogging platform.
 
 ## Technology stack
 
-- TypeScript
-- NodeJS
-- Yarn
-- Monorepo
+- [Node.js](https://nodejs.org/en/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Yarn](https://yarnpkg.com/)
+- [Monorepo](https://classic.yarnpkg.com/lang/en/docs/workspaces/)
 
 ### Front-end:
 
-- Next.js
-- MUI
-- React Hook Form
+- [Next.js](https://nextjs.org/)
+- [Vercel](https://vercel.com/)
+- [MUI](https://mui.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [TanStack Query](https://tanstack.com/query/v4)
 
 ### Back-end:
 
-- Fastify
-- Prisma
-- TypeBox
+- [Fastify](https://www.fastify.io/)
+- [Prisma](https://www.prisma.io/)
+- [TypeBox](https://www.npmjs.com/package/@sinclair/typebox/)
+
+## TODO:
+
+- [ ] migrate to PostgreSQL
+- [ ] docker compose
 
 ## Contact
 
