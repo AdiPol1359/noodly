@@ -57,6 +57,7 @@ model UserPosts {
   uuid         String    @unique
   title        String
   introduction String
+  content      String    @db.LongText
   creationDate DateTime  @default(now()) @map("creation_date")
   updateDate   DateTime? @updatedAt @map("update_date")
 

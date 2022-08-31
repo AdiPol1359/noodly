@@ -1,7 +1,7 @@
 import crypto from 'node:crypto';
+import xss from 'xss';
 
 import { userIncludes } from 'modules/users/users.data';
-import { createOrUpdatePost, getPostByUuid, deletePostByUuid } from './posts.model';
 import { mapUserPostToPost } from './posts.mappers';
 
 import type {
@@ -24,7 +24,7 @@ export const getPosts: RouteHandlerMethodTypeBox<typeof getPostsSchema> = async 
     orderBy: { creationDate: 'desc' },
   });
 
-  return posts.map((post) => mapUserPostToPost(post));
+  return posts.map(mapUserPostToPost);
 };
 
 export const getPost: RouteHandlerMethodTypeBox<typeof getPostSchema> = async (request, reply) => {
@@ -41,9 +41,7 @@ export const getPost: RouteHandlerMethodTypeBox<typeof getPostSchema> = async (r
     return reply.notFound('Post not found.');
   }
 
-  const content = await getPostByUuid(uuid);
-
-  return mapUserPostToPost(post, content);
+  return mapUserPostToPost(post);
 };
 
 export const createPost: RouteHandlerMethodTypeBox<typeof createPostSchema> = async (request, reply) => {
@@ -53,14 +51,12 @@ export const createPost: RouteHandlerMethodTypeBox<typeof createPostSchema> = as
 
   const uuid = crypto.randomBytes(8).toString('hex');
 
-  await createOrUpdatePost(uuid, content);
-
   const post = await server.prisma.userPosts.create({
-    data: { userId, uuid, title, introduction, updateDate: null },
+    data: { userId, uuid, title, introduction, content: xss(content), updateDate: null },
     include: { user: { include: userIncludes } },
   });
 
-  reply.status(201).send(mapUserPostToPost(post, content));
+  reply.status(201).send(mapUserPostToPost(post));
 };
 
 export const updatePost: RouteHandlerMethodTypeBox<typeof updatePostSchema> = async (request, reply) => {
@@ -71,12 +67,8 @@ export const updatePost: RouteHandlerMethodTypeBox<typeof updatePostSchema> = as
 
   await server.prisma.userPosts.updateMany({
     where: { userId, uuid },
-    data: { title, introduction },
+    data: { title, introduction, content: content && xss(content) },
   });
-
-  if (content) {
-    await createOrUpdatePost(uuid, content);
-  }
 
   reply.status(204).send();
 };
@@ -87,7 +79,6 @@ export const deletePost: RouteHandlerMethodTypeBox<typeof deletePostSchema> = as
   const { uuid } = request.params;
 
   await server.prisma.userPosts.deleteMany({ where: { userId, uuid } });
-  await deletePostByUuid(uuid);
 
   reply.status(204).send();
 };

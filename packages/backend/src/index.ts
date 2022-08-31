@@ -1,12 +1,9 @@
 import ajvErrors from 'ajv-errors';
 
-import { initPosts } from 'modules/posts/posts.model';
 import { createServer } from 'server';
 
 const start = async () => {
   try {
-    await initPosts();
-
     const server = await createServer({
       ajv: {
         customOptions: {

@@ -9,7 +9,7 @@ export const postSchema = Type.Object({
   author: userSchema,
   creationDate: Type.Number(),
   updateDate: Type.Union([Type.Number(), Type.Null()]),
-  content: Type.Optional(Type.String()),
+  content: Type.String(),
 });
 
 const postRequestSchema = Type.Object({
