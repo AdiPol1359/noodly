@@ -61,24 +61,26 @@ export const createPost: RouteHandlerMethodTypeBox<typeof createPostSchema> = as
 
 export const updatePost: RouteHandlerMethodTypeBox<typeof updatePostSchema> = async (request, reply) => {
   const { server } = request;
-  const { userId } = request.session;
   const { uuid } = request.params;
   const { title, introduction, content } = request.body;
 
-  await server.prisma.userPosts.updateMany({
-    where: { userId, uuid },
+  const post = await server.prisma.userPosts.update({
+    where: { uuid },
     data: { title, introduction, content: content && xss(content) },
+    include: { user: { include: userIncludes } },
   });
 
-  reply.status(204).send();
+  reply.status(200).send(mapUserPostToPost(post));
 };
 
 export const deletePost: RouteHandlerMethodTypeBox<typeof deletePostSchema> = async (request, reply) => {
   const { server } = request;
-  const { userId } = request.session;
   const { uuid } = request.params;
 
-  await server.prisma.userPosts.deleteMany({ where: { userId, uuid } });
+  const post = await server.prisma.userPosts.delete({
+    where: { uuid },
+    include: { user: { include: userIncludes } },
+  });
 
-  reply.status(204).send();
+  reply.status(200).send(mapUserPostToPost(post));
 };

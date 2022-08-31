@@ -31,7 +31,7 @@ export const updatePostSchema = createFastifySchema({
   }),
   body: Type.Partial(postRequestSchema),
   response: {
-    204: Type.Object({}),
+    200: postSchema,
   },
 });
 
@@ -40,7 +40,7 @@ export const deletePostSchema = createFastifySchema({
     uuid: Type.String(),
   }),
   response: {
-    204: Type.Object({}),
+    200: postSchema,
   },
 });
 
