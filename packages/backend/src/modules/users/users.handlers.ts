@@ -108,6 +108,8 @@ export const handleUserFollow =
           where: { followerId_followingId: { followerId: userId, followingId: followId } },
         });
       }
+
+      reply.status(204).send();
     } catch (err) {
       reply.conflict(`You are ${action === 'follow' ? 'already' : 'not'} follow this user.`);
     }
