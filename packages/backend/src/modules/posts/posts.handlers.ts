@@ -59,7 +59,7 @@ export const createPost: RouteHandlerMethodTypeBox<typeof createPostSchema> = as
   reply.status(201).send(mapUserPostToPost(post));
 };
 
-export const updatePost: RouteHandlerMethodTypeBox<typeof updatePostSchema> = async (request, reply) => {
+export const updatePost: RouteHandlerMethodTypeBox<typeof updatePostSchema> = async (request) => {
   const { server } = request;
   const { uuid } = request.params;
   const { title, introduction, content } = request.body;
@@ -70,10 +70,10 @@ export const updatePost: RouteHandlerMethodTypeBox<typeof updatePostSchema> = as
     include: { user: { include: userIncludes } },
   });
 
-  reply.status(200).send(mapUserPostToPost(post));
+  return mapUserPostToPost(post);
 };
 
-export const deletePost: RouteHandlerMethodTypeBox<typeof deletePostSchema> = async (request, reply) => {
+export const deletePost: RouteHandlerMethodTypeBox<typeof deletePostSchema> = async (request) => {
   const { server } = request;
   const { uuid } = request.params;
 
@@ -82,5 +82,5 @@ export const deletePost: RouteHandlerMethodTypeBox<typeof deletePostSchema> = as
     include: { user: { include: userIncludes } },
   });
 
-  reply.status(200).send(mapUserPostToPost(post));
+  return mapUserPostToPost(post);
 };
