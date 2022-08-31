@@ -15,6 +15,13 @@ const schema = Type.Object({
   SESSION_SECRET: Type.String({ default: 'NPMTB1kv54qcKVEdJj0tvsS760RmkDlL' }),
   SESSION_COOKIE_NAME: Type.String({ default: 'sessionId' }),
   SESSION_COOKIE_EXPIRES: Type.Number({ default: 1200000 }),
+  SESSION_COOKIE_DOMAIN: Type.String({ default: 'localhost' }),
+  SESSION_COOKIE_SAME_SITE: Type.Union(
+    [Type.Literal('lax'), Type.Literal('none'), Type.Literal('strict'), Type.Boolean()],
+    {
+      default: 'lax',
+    }
+  ),
 });
 
 declare module 'fastify' {
