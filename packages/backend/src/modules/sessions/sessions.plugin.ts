@@ -21,12 +21,16 @@ declare module 'fastify' {
 }
 
 const sessionPlugin: FastifyPluginAsync = async (fastify) => {
+  const { config } = fastify;
+
   await fastify.register(fastifySession, {
-    cookieName: fastify.config.SESSION_COOKIE_NAME,
-    secret: fastify.config.SESSION_SECRET,
+    cookieName: config.SESSION_COOKIE_NAME,
+    secret: config.SESSION_SECRET,
     cookie: {
       secure: process.env.NODE_ENV === 'production',
-      maxAge: fastify.config.SESSION_COOKIE_EXPIRES,
+      maxAge: config.SESSION_COOKIE_EXPIRES,
+      domain: config.SESSION_COOKIE_DOMAIN,
+      sameSite: config.SESSION_COOKIE_SAME_SITE,
     },
   });
 
