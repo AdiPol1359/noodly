@@ -8,13 +8,9 @@ type UserPost = UserPosts & {
   };
 };
 
-export const mapUserPostToPost = (
-  { creationDate, updateDate, user: author, ...rest }: UserPost,
-  content?: string
-): Post => ({
+export const mapUserPostToPost = ({ creationDate, updateDate, user: author, ...rest }: UserPost): Post => ({
   creationDate: creationDate.getTime(),
   updateDate: updateDate && updateDate.getTime(),
   author,
-  content,
   ...rest,
 });
