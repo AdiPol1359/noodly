@@ -5,6 +5,8 @@ import { useUser } from 'hooks/useUser';
 import { useRouter } from 'next/router';
 import { getPost } from 'services/post.service';
 
+const isNumber = (num: unknown): num is number => !isNaN(Number(num));
+
 export const DashboardEditPostPageContent = () => {
   const { slug } = useRouter().query;
 
@@ -13,7 +15,7 @@ export const DashboardEditPostPageContent = () => {
   const { data, isLoading, isError } = useQuery(
     ['user', userData?.username, 'post', slug],
     async () => {
-      return await getPost(slug as string, { username: userData?.username });
+      return await getPost(isNumber(slug) ? slug : -1, { username: userData?.username });
     },
     {
       enabled: !!slug && !!userData,

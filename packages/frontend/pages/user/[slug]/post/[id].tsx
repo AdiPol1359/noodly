@@ -12,12 +12,12 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
-export const getStaticProps = async ({ params }: GetStaticPropsContext<{ slug: string; uuid: string }>) => {
+export const getStaticProps = async ({ params }: GetStaticPropsContext<{ slug: string; id: string }>) => {
   const username = params?.slug;
-  const uuid = params?.uuid;
+  const id = params?.id;
 
   try {
-    const post = await getPost(uuid!, { username });
+    const post = await getPost(id!, { username });
 
     return {
       props: { post },

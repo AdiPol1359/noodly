@@ -5,11 +5,11 @@ export const checkPostPreHander: preHandlerHookHandler = async (request, reply) 
   const { prisma } = request.server;
   const { userId } = request.session;
 
-  if (!!params && typeof params === 'object' && 'uuid' in params) {
-    const { uuid } = params as { uuid: string };
+  if (!!params && typeof params === 'object' && 'id' in params) {
+    const { id } = params as { id: number };
 
     try {
-      await prisma.userPosts.findFirstOrThrow({ where: { userId, uuid } });
+      await prisma.userPosts.findFirstOrThrow({ where: { id, userId } });
     } catch (err) {
       return reply.notFound('User post not found.');
     }

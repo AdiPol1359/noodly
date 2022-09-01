@@ -32,14 +32,13 @@ export const DashboardPostsPageContent = () => {
 
   return (
     <Box sx={{ width: '100%', display: 'flex', gap: 3.5, flexWrap: 'wrap' }}>
-      {data.map(({ title, introduction, uuid }) => (
+      {data.map(({ id, ...rest }) => (
         <PostSneakPeek
-          key={uuid}
-          title={title}
-          introduction={introduction}
+          key={id}
           buttonTitle="Edytuj posta"
-          buttonHref={`/dashboard/posts/edit/${uuid}`}
+          buttonHref={`/dashboard/posts/edit/${id}`}
           hideIcons
+          {...rest}
         />
       ))}
     </Box>

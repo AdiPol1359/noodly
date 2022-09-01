@@ -91,8 +91,8 @@ export const UserProfilePageContent = ({
         {posts.length === 0 ? (
           <Alert severity="info">Ten użytkownik nie zamieścił jeszcze żadnego posta.</Alert>
         ) : (
-          posts.map(({ uuid, ...rest }) => (
-            <PostSneakPeek key={uuid} buttonHref={`/user/${username}/post/${uuid}`} {...rest} />
+          posts.map(({ id, ...rest }) => (
+            <PostSneakPeek key={id} buttonHref={`/user/${username}/post/${id}`} {...rest} />
           ))
         )}
       </Box>

@@ -8,9 +8,9 @@ export const getAllPosts = async (query?: InferQuery<typeof getPostsSchema>) => 
   return data;
 };
 
-export const getPost = async (uuid: string, query?: InferQuery<typeof getPostSchema>) => {
+export const getPost = async (id: number, query?: InferQuery<typeof getPostSchema>) => {
   const { data } = await axiosWrapper.get<typeof getPostSchema>(
-    `/posts/${uuid}?${new URLSearchParams(query).toString()}`
+    `/posts/${id}?${new URLSearchParams(query).toString()}`
   );
   return data;
 };
@@ -20,10 +20,10 @@ export const createPost = async (body: InferBody<typeof createPostSchema>) => {
   return { data };
 };
 
-export const updatePost = async ({ uuid, body }: { uuid: string; body: InferBody<typeof updatePostSchema> }) => {
-  await axiosWrapper.patch<typeof updatePostSchema>(`/posts/${uuid}`, body);
+export const updatePost = async ({ id, body }: { id: number; body: InferBody<typeof updatePostSchema> }) => {
+  await axiosWrapper.patch<typeof updatePostSchema>(`/posts/${id}`, body);
 };
 
-export const deletePost = async (uuid: string) => {
-  await axiosWrapper.delete(`/posts/${uuid}`);
+export const deletePost = async (id: number) => {
+  await axiosWrapper.delete(`/posts/${id}`);
 };

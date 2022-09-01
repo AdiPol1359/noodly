@@ -7,7 +7,7 @@ import { Box } from '@mui/system';
 import { FormInput } from 'components/shared/FormInput';
 import { PostEditor } from './PostEditor';
 import { useMutation } from '@tanstack/react-query';
-import { createPost, deletePost, updatePost } from 'services/post.services';
+import { createPost, deletePost, updatePost } from 'services/post.service';
 import { useYupForm } from 'hooks/useYupForm';
 import { isApiError } from 'lib/axios';
 import { useAlert } from 'hooks/useAlert';
@@ -18,14 +18,14 @@ const schema = yup.object({
 });
 
 type Props = Readonly<{
+  id?: number;
   title?: string;
   introduction?: string;
   content?: string;
-  uuid?: string;
   editMode?: boolean;
 }>;
 
-export const PostForm = ({ title, introduction, uuid, content = '', editMode = false }: Props) => {
+export const PostForm = ({ id, title, introduction, content = '', editMode = false }: Props) => {
   const router = useRouter();
 
   const [value, setValue] = useState(content);
@@ -53,9 +53,9 @@ export const PostForm = ({ title, introduction, uuid, content = '', editMode = f
       }
 
       editMode
-        ? uuid &&
+        ? id &&
           updatePostMutation.mutate(
-            { uuid: uuid, body: { title, introduction, content: value } },
+            { id, body: { title, introduction, content: value } },
             { onSuccess: redirect, onError: handleMutationError }
           )
         : createPostMutation.mutate(
@@ -71,8 +71,8 @@ export const PostForm = ({ title, introduction, uuid, content = '', editMode = f
   const redirect = () => router.push('/dashboard/posts');
 
   const handleDeleteButtonClick = () => {
-    if (uuid) {
-      deletePostMutation.mutate(uuid, { onSuccess: redirect });
+    if (id) {
+      deletePostMutation.mutate(id, { onSuccess: redirect });
     }
   };
 

@@ -3,7 +3,7 @@ import { userSchema } from '../users/users.schemas';
 import { createFastifySchema } from '../utils';
 
 export const postSchema = Type.Object({
-  uuid: Type.String(),
+  id: Type.Number(),
   title: Type.String(),
   introduction: Type.String(),
   author: userSchema,
@@ -27,7 +27,7 @@ export const createPostSchema = createFastifySchema({
 
 export const updatePostSchema = createFastifySchema({
   params: Type.Object({
-    uuid: Type.String(),
+    id: Type.Number(),
   }),
   body: Type.Partial(postRequestSchema),
   response: {
@@ -37,7 +37,7 @@ export const updatePostSchema = createFastifySchema({
 
 export const deletePostSchema = createFastifySchema({
   params: Type.Object({
-    uuid: Type.String(),
+    id: Type.Number(),
   }),
   response: {
     200: postSchema,
@@ -57,7 +57,7 @@ export const getPostsSchema = createFastifySchema({
 
 export const getPostSchema = createFastifySchema({
   params: Type.Object({
-    uuid: Type.String(),
+    id: Type.Number(),
   }),
   querystring: Type.Partial(
     Type.Object({

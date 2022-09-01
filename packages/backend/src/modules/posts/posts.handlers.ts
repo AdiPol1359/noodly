@@ -1,4 +1,3 @@
-import crypto from 'node:crypto';
 import xss from 'xss';
 
 import { userIncludes } from 'modules/users/users.data';
@@ -29,11 +28,11 @@ export const getPosts: RouteHandlerMethodTypeBox<typeof getPostsSchema> = async 
 
 export const getPost: RouteHandlerMethodTypeBox<typeof getPostSchema> = async (request, reply) => {
   const { prisma } = request.server;
-  const { uuid } = request.params;
+  const { id } = request.params;
   const { username } = request.query;
 
   const post = await prisma.userPosts.findFirst({
-    where: { uuid, user: { username } },
+    where: { id, user: { username } },
     include: { user: { include: userIncludes } },
   });
 
@@ -49,10 +48,8 @@ export const createPost: RouteHandlerMethodTypeBox<typeof createPostSchema> = as
   const { userId } = request.session;
   const { title, introduction, content } = request.body;
 
-  const uuid = crypto.randomBytes(8).toString('hex');
-
   const post = await server.prisma.userPosts.create({
-    data: { userId, uuid, title, introduction, content: xss(content), updateDate: null },
+    data: { userId, title, introduction, content: xss(content), updateDate: null },
     include: { user: { include: userIncludes } },
   });
 
@@ -61,11 +58,11 @@ export const createPost: RouteHandlerMethodTypeBox<typeof createPostSchema> = as
 
 export const updatePost: RouteHandlerMethodTypeBox<typeof updatePostSchema> = async (request) => {
   const { server } = request;
-  const { uuid } = request.params;
+  const { id } = request.params;
   const { title, introduction, content } = request.body;
 
   const post = await server.prisma.userPosts.update({
-    where: { uuid },
+    where: { id },
     data: { title, introduction, content: content && xss(content) },
     include: { user: { include: userIncludes } },
   });
@@ -75,10 +72,10 @@ export const updatePost: RouteHandlerMethodTypeBox<typeof updatePostSchema> = as
 
 export const deletePost: RouteHandlerMethodTypeBox<typeof deletePostSchema> = async (request) => {
   const { server } = request;
-  const { uuid } = request.params;
+  const { id } = request.params;
 
   const post = await server.prisma.userPosts.delete({
-    where: { uuid },
+    where: { id },
     include: { user: { include: userIncludes } },
   });
 

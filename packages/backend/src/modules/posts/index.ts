@@ -6,10 +6,10 @@ import type { FastifyPluginCallbackTypebox } from '@fastify/type-provider-typebo
 
 const postsPlugin: FastifyPluginCallbackTypebox = (fastify, _options, done) => {
   fastify.get('/', { schema: getPostsSchema }, getPosts);
-  fastify.get('/:uuid', { schema: getPostSchema }, getPost);
+  fastify.get('/:id', { schema: getPostSchema }, getPost);
   fastify.post('/', { schema: createPostSchema, preHandler: fastify.auth }, createPost);
-  fastify.patch('/:uuid', { schema: updatePostSchema, preHandler: [fastify.auth, checkPostPreHander] }, updatePost);
-  fastify.delete('/:uuid', { schema: deletePostSchema, preHandler: [fastify.auth, checkPostPreHander] }, deletePost);
+  fastify.patch('/:id', { schema: updatePostSchema, preHandler: [fastify.auth, checkPostPreHander] }, updatePost);
+  fastify.delete('/:id', { schema: deletePostSchema, preHandler: [fastify.auth, checkPostPreHander] }, deletePost);
 
   done();
 };

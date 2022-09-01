@@ -54,7 +54,6 @@ model UserPosts {
   id           Int       @id @default(autoincrement())
   user         User      @relation(fields: [userId], references: [id])
   userId       Int
-  uuid         String    @unique
   title        String
   introduction String
   content      String    @db.LongText
