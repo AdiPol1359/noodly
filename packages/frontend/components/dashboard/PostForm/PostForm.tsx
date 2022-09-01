@@ -7,39 +7,32 @@ import { Box } from '@mui/system';
 import { FormInput } from 'components/shared/FormInput';
 import { PostEditor } from './PostEditor';
 import { useMutation } from '@tanstack/react-query';
-import { createPost, deletePost, updatePost } from 'services/post.service';
+import { deletePost } from 'services/post.service';
 import { useYupForm } from 'hooks/useYupForm';
-import { isApiError } from 'lib/axios';
-import { useAlert } from 'hooks/useAlert';
+import { REQUIRED_FIELD_ERROR_MESSAGE } from 'contants';
+
+import type { Post } from '@noodly/common';
+import type { InferType } from 'yup';
 
 const schema = yup.object({
-  title: yup.string().required('Uzupełnij to pole'),
-  introduction: yup.string().required('Uzupełnij to pole'),
+  title: yup.string().required(REQUIRED_FIELD_ERROR_MESSAGE),
+  introduction: yup.string().required(REQUIRED_FIELD_ERROR_MESSAGE),
 });
 
 type Props = Readonly<{
-  id?: number;
-  title?: string;
-  introduction?: string;
-  content?: string;
-  editMode?: boolean;
+  onSubmit: (data: InferType<typeof schema> & { content: string }) => Promise<void>;
+  isLoading: boolean;
+  post?: Post;
 }>;
 
-export const PostForm = ({ id, title, introduction, content = '', editMode = false }: Props) => {
+export const PostForm = ({ post, isLoading, onSubmit }: Props) => {
   const router = useRouter();
 
-  const [value, setValue] = useState(content);
-  const [alert, showAlert] = useAlert({ mb: 3.5 });
+  const [value, setValue] = useState(post?.content || '');
 
-  const createPostMutation = useMutation(createPost);
-  const updatePostMutation = useMutation(updatePost);
   const deletePostMutation = useMutation(deletePost);
 
-  const handleMutationError = (err: unknown) => {
-    if (isApiError(err)) {
-      showAlert({ severity: 'error', message: err.response?.data.message || '' });
-    }
-  };
+  const redirect = () => router.push('/dashboard/posts');
 
   const {
     handleFormSubmit,
@@ -47,39 +40,27 @@ export const PostForm = ({ id, title, introduction, content = '', editMode = fal
     formState: { errors },
   } = useYupForm(
     schema,
-    ({ title, introduction }) => {
+    async (data) => {
       if (value.length === 0) {
         return;
       }
 
-      editMode
-        ? id &&
-          updatePostMutation.mutate(
-            { id, body: { title, introduction, content: value } },
-            { onSuccess: redirect, onError: handleMutationError }
-          )
-        : createPostMutation.mutate(
-            { title, introduction, content: value },
-            { onSuccess: redirect, onError: handleMutationError }
-          );
+      await onSubmit({ content: value, ...data });
+      redirect();
     },
     {
-      defaultValues: { title, introduction },
+      defaultValues: { title: post?.title, introduction: post?.introduction },
     }
   );
 
-  const redirect = () => router.push('/dashboard/posts');
-
   const handleDeleteButtonClick = () => {
-    if (id) {
-      deletePostMutation.mutate(id, { onSuccess: redirect });
+    if (post) {
+      deletePostMutation.mutate(post.id, { onSuccess: redirect });
     }
   };
 
   return (
     <Box component="form" sx={{ display: 'flex', flexDirection: 'column' }} onSubmit={handleFormSubmit}>
-      {alert}
-
       <FormInput
         label="Tytuł posta"
         placeholder="Wpisz tytuł posta"
@@ -100,16 +81,11 @@ export const PostForm = ({ id, title, introduction, content = '', editMode = fal
 
       <PostEditor value={value} onChange={setValue} />
 
-      <LoadingButton
-        variant="contained"
-        color="success"
-        type="submit"
-        loading={createPostMutation.isLoading || updatePostMutation.isLoading}
-      >
-        {editMode ? 'Edytuj' : 'Utwórz'} post
+      <LoadingButton variant="contained" color="success" type="submit" loading={isLoading}>
+        {post ? 'Edytuj' : 'Utwórz'} post
       </LoadingButton>
 
-      {editMode && (
+      {post && (
         <LoadingButton
           variant="contained"
           color="error"

@@ -1,9 +1,9 @@
 import { Alert, CircularProgress } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { PostForm } from 'components/dashboard/PostForm/PostForm';
 import { useUser } from 'hooks/useUser';
 import { useRouter } from 'next/router';
-import { getPost } from 'services/post.service';
+import { getPost, updatePost } from 'services/post.service';
 
 export const DashboardEditPostPageContent = () => {
   const { slug } = useRouter().query;
@@ -22,6 +22,8 @@ export const DashboardEditPostPageContent = () => {
     }
   );
 
+  const updatePostMutation = useMutation(updatePost);
+
   if (isLoading) {
     return <CircularProgress color="success" sx={{ display: 'block', margin: 'auto' }} />;
   }
@@ -30,5 +32,13 @@ export const DashboardEditPostPageContent = () => {
     return <Alert severity="error">Ten post nie należy do Ciebie!</Alert>;
   }
 
-  return <PostForm {...data} editMode />;
+  return (
+    <PostForm
+      post={data}
+      isLoading={updatePostMutation.isLoading}
+      onSubmit={async (body) => {
+        await updatePostMutation.mutateAsync({ id: data.id, body });
+      }}
+    />
+  );
 };
