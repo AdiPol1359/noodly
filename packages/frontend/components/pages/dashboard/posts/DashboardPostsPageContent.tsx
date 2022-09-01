@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useUser } from 'hooks/useUser';
-import { getAllPosts } from 'services/post.services';
+import { getAllPosts } from 'services/post.service';
 import { Alert, Box, CircularProgress } from '@mui/material';
 import { PostSneakPeek } from 'components/base/PostSneakPeek';
 import { LinkButton } from 'components/shared/LinkButton';

@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { getPost } from 'services/post.services';
+import { getPost } from 'services/post.service';
 import { UserPostPageContent } from 'components/pages/user/UserPostPageContent';
 
 import type { GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType } from 'next';

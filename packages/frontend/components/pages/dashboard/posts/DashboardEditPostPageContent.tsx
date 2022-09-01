@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { PostForm } from 'components/dashboard/PostForm/PostForm';
 import { useUser } from 'hooks/useUser';
 import { useRouter } from 'next/router';
-import { getPost } from 'services/post.services';
+import { getPost } from 'services/post.service';
 
 export const DashboardEditPostPageContent = () => {
   const { slug } = useRouter().query;

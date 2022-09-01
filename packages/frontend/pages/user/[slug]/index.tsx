@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import { getUsers } from 'services/user.service';
 import { UserProfilePageContent } from 'components/pages/user/UserProfilePageContent';
-import { getAllPosts } from 'services/post.services';
+import { getAllPosts } from 'services/post.service';
 
 import type { GetStaticPaths, GetStaticPropsContext, InferGetStaticPropsType } from 'next';
 
