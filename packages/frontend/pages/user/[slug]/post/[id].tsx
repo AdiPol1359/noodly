@@ -17,7 +17,7 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext<{ slug: s
   const id = params?.id;
 
   try {
-    const post = await getPost(id!, { username });
+    const post = await getPost(Number(id), { username });
 
     return {
       props: { post },
