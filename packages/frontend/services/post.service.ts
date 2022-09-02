@@ -17,13 +17,15 @@ export const getPost = async (id: number, query?: InferQuery<typeof getPostSchem
 
 export const createPost = async (body: InferBody<typeof createPostSchema>) => {
   const { data } = await axiosWrapper.post<typeof createPostSchema>('/posts', body);
-  return { data };
+  return data;
 };
 
 export const updatePost = async ({ id, body }: { id: number; body: InferBody<typeof updatePostSchema> }) => {
-  await axiosWrapper.patch<typeof updatePostSchema>(`/posts/${id}`, body);
+  const { data } = await axiosWrapper.patch<typeof updatePostSchema>(`/posts/${id}`, body);
+  return data;
 };
 
 export const deletePost = async (id: number) => {
-  await axiosWrapper.delete(`/posts/${id}`);
+  const { data } = await axiosWrapper.delete(`/posts/${id}`);
+  return data;
 };
