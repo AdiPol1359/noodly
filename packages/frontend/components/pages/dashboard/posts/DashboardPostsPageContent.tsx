@@ -10,7 +10,7 @@ export const DashboardPostsPageContent = () => {
 
   const { data, isLoading, isError } = useQuery(
     ['user', userData?.username, 'posts'],
-    async () => await getAllPosts({ username: userData?.username }),
+    () => getAllPosts({ username: userData?.username }),
     { enabled: !!userData }
   );
 

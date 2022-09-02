@@ -12,9 +12,7 @@ export const DashboardEditPostPageContent = () => {
 
   const { data, isLoading, isError } = useQuery(
     ['user', userData?.username, 'post', slug],
-    async () => {
-      return await getPost(Number(slug), { username: userData?.username });
-    },
+    () => getPost(Number(slug), { username: userData?.username }),
     {
       enabled: !!slug && !!userData,
       retry: false,
