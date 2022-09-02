@@ -16,7 +16,7 @@ declare module 'fastify' {
   }
 }
 
-const sessionsDecoratos: FastifyPluginCallbackTypebox = (fastify, _options, done) => {
+const sessionsDecorators: FastifyPluginCallbackTypebox = (fastify, _options, done) => {
   fastify.decorateRequest('user', null);
 
   fastify.decorate<preHandlerHookHandler>('auth', async (request, reply) => {
@@ -48,4 +48,4 @@ const sessionsDecoratos: FastifyPluginCallbackTypebox = (fastify, _options, done
   done();
 };
 
-export default fp(sessionsDecoratos);
+export default fp(sessionsDecorators);
