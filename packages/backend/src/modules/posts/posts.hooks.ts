@@ -1,6 +1,6 @@
 import type { preHandlerHookHandler } from 'fastify';
 
-export const checkPostPreHander: preHandlerHookHandler = async (request, reply) => {
+export const checkPost: preHandlerHookHandler = async (request, reply) => {
   const { params } = request;
   const { prisma } = request.server;
   const { userId } = request.session;
