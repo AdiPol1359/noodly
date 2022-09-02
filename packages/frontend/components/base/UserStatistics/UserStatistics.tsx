@@ -60,7 +60,7 @@ export const UserStatistics = ({ userId, followData }: Props) => {
         clearTimeout(current);
       }
     };
-  });
+  }, []);
 
   useEffect(() => {
     void refetch();
