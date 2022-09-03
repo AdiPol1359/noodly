@@ -1,18 +1,10 @@
-import { useQuery } from '@tanstack/react-query';
-import { useUser } from 'hooks/useUser';
-import { getAllPosts } from 'services/post.service';
 import { Alert, Box, CircularProgress } from '@mui/material';
 import { PostSneakPeek } from 'components/base/PostSneakPeek';
 import { LinkButton } from 'components/shared/LinkButton';
+import { useUserPosts } from 'hooks/useUserPosts';
 
 export const DashboardPostsPageContent = () => {
-  const { data: userData } = useUser();
-
-  const { data, isLoading, isError } = useQuery(
-    ['user', userData?.username, 'posts'],
-    () => getAllPosts({ username: userData?.username }),
-    { enabled: !!userData }
-  );
+  const { data, isLoading, isError } = useUserPosts();
 
   if (isLoading || isError) {
     return <CircularProgress color="success" sx={{ display: 'block', margin: 'auto' }} />;

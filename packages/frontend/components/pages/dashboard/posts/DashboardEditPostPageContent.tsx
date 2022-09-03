@@ -1,24 +1,14 @@
 import { Alert, CircularProgress } from '@mui/material';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { PostForm } from 'components/dashboard/PostForm/PostForm';
-import { useUser } from 'hooks/useUser';
+import { useUserPost } from 'hooks/useUserPost';
 import { useRouter } from 'next/router';
-import { getPost, updatePost } from 'services/post.service';
+import { updatePost } from 'services/post.service';
 
 export const DashboardEditPostPageContent = () => {
   const { slug } = useRouter().query;
 
-  const { data: userData } = useUser();
-
-  const { data, isLoading, isError } = useQuery(
-    ['user', userData?.username, 'post', slug],
-    () => getPost(Number(slug), { username: userData?.username }),
-    {
-      enabled: !!slug && !!userData,
-      retry: false,
-      cacheTime: 0,
-    }
-  );
+  const { data, isLoading, isError } = useUserPost(Number(slug));
 
   const updatePostMutation = useMutation(updatePost);
 
