@@ -1,11 +1,5 @@
 import Link from 'next/link';
 
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import AddIcon from '@mui/icons-material/Add';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import LogoutIcon from '@mui/icons-material/Logout';
-
 import { Fragment } from 'react';
 import {
   Divider,
@@ -21,20 +15,9 @@ import {
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { useRouteChange } from 'hooks/useRouteChange';
+import { asideNavigationItems } from 'data/navigation';
 
 import type { Theme } from '@mui/material';
-
-const navigationItems = [
-  [{ title: 'Pulpit', icon: DashboardIcon, path: '/dashboard' }],
-  [
-    { title: 'Twoje posty', icon: ReceiptIcon, path: '/dashboard/posts' },
-    { title: 'Dodaj posta', icon: AddIcon, path: '/dashboard/posts/add' },
-  ],
-  [
-    { title: 'Ustawienia konta', icon: ManageAccountsIcon, path: '/dashboard/account' },
-    { title: 'Powrót', icon: LogoutIcon, path: '/' },
-  ],
-];
 
 export const DRAWER_WIDTH = '250px';
 
@@ -58,7 +41,7 @@ export const AsideMenu = ({ isOpen, onClose }: Props) => {
       >
         <Toolbar />
 
-        {navigationItems.map((list, key) => (
+        {asideNavigationItems.map((list, key) => (
           <Fragment key={key}>
             <Divider />
             <List>
