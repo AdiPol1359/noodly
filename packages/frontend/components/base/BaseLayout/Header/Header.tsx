@@ -5,7 +5,7 @@ import { Box } from '@mui/system';
 import { LOGIN_PAGE_PATH } from 'contants';
 import { SearchInput } from './SearchInput';
 import { UserProfileIcon } from './UserProfileIcon';
-import { AuthContent } from 'components/base/AuthContent';
+import { PrivateContent } from 'components/shared/PrivateContent';
 import { LinkButton } from 'components/shared/LinkButton';
 
 export const Header = () => (
@@ -23,11 +23,11 @@ export const Header = () => (
       <SearchInput />
 
       <Box component="nav" sx={{ ml: 1, gap: 0.5, display: { xs: 'none', sm: 'flex' } }}>
-        <AuthContent loggedIn={false}>
+        <PrivateContent loggedIn={false}>
           <LinkButton href={LOGIN_PAGE_PATH} sx={{ color: '#fff' }}>
             logowanie
           </LinkButton>
-        </AuthContent>
+        </PrivateContent>
 
         <LinkButton href="/rules" sx={{ color: '#fff' }}>
           regulamin

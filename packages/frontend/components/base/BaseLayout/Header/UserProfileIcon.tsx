@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { AuthContent } from 'components/base/AuthContent';
+import { PrivateContent } from 'components/shared/PrivateContent';
 import { Avatar, IconButton, Menu, MenuItem, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useState } from 'react';
@@ -35,7 +35,7 @@ export const UserProfileIcon = () => {
   };
 
   return (
-    <AuthContent>
+    <PrivateContent loggedIn={true}>
       <Box sx={{ ml: 1 }}>
         <IconButton sx={{ p: 0 }} onClick={({ currentTarget }) => setAnchorEl(currentTarget)}>
           <Avatar>{data?.details.firstName.charAt(0)}</Avatar>
@@ -46,6 +46,6 @@ export const UserProfileIcon = () => {
           <Item title="Wyloguj się" onClick={handleLogoutClick} />
         </Menu>
       </Box>
-    </AuthContent>
+    </PrivateContent>
   );
 };

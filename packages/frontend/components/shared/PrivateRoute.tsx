@@ -1,28 +1,24 @@
 import { useUser } from 'hooks/useUser';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { PrivateContent } from 'components/shared/PrivateContent';
 
-import type { ReactNode } from 'react';
+import type { PrivateContentProps } from 'components/shared/PrivateContent';
 
 type Props = Readonly<{
-  loggedIn?: boolean;
   path: string;
-  children: ReactNode;
-}>;
+}> &
+  PrivateContentProps;
 
-export const PrivateRoute = ({ loggedIn = true, path, children }: Props) => {
+export const PrivateRoute = ({ children, ...rest }: Props) => {
   const { replace } = useRouter();
   const { isLoading, data } = useUser();
 
   useEffect(() => {
-    if (!isLoading && !!data !== loggedIn) {
-      replace(path);
+    if (!isLoading && !!data !== rest.loggedIn) {
+      replace(rest.path);
     }
-  }, [data, isLoading, loggedIn, path, replace]);
+  }, [data, isLoading, replace, rest.loggedIn, rest.path]);
 
-  if (isLoading || !!data !== loggedIn) {
-    return null;
-  }
-
-  return <>{children}</>;
+  return <PrivateContent {...rest}>{children}</PrivateContent>;
 };

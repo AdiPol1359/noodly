@@ -28,7 +28,7 @@ export const DashboardLayout = ({ children }: Props) => {
   const pageTitle = titleData.find(({ path }) => path === pathname);
 
   return (
-    <PrivateRoute path={LOGIN_PAGE_PATH}>
+    <PrivateRoute path={LOGIN_PAGE_PATH} loggedIn={true}>
       <Box sx={{ display: 'flex', height: '100%' }}>
         <DashboardToolbar onClick={() => setIsMenuOpen(true)} />
         <AsideMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
