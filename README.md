@@ -4,8 +4,8 @@ The largest blogging platform.
 
 ## Demo
 
-- Front-end: [https://noodly.projectcode.pl](https://noodly.projectcode.pl)
-- Backend-end (Swagger): [https://api.projectcode.pl/docs](https://api.projectcode.pl/docs)
+- Front-end: [https://noodly.adipol.dev](https://noodly.adipol.dev)
+- Backend-end (Swagger): [https://api.noodly.adipol.dev/docs](https://api.noodly.adipol.dev/docs)
 
 ## Technology stack
 
